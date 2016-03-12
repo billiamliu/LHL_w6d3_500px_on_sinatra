@@ -1,5 +1,7 @@
 # my own reqs not a part of the skeleton
 require 'net/http'
+require 'dotenv'
+Dotenv.load
 # end my own stuff
 
 require 'rubygems'
