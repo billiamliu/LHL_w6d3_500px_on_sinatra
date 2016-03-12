@@ -1,6 +1,42 @@
 
 $(function(){
 
+  // NOTE: ------- NAVIGATION -------
+  $('#tab_500px').on('click', function(){
+    $('body').children('section').css('display', 'none');
+    $('#_500px').css('display', 'block');
+    $('.header-tab').removeClass('is-active');
+    $(this).addClass('is-active');
+  });
+
+  $('#tab_gmaps').on('click', function(){
+    $('body').children('section').css('display', 'none');
+    $('#_gmaps').css('display', 'block');
+    $('.header-tab').removeClass('is-active');
+    $(this).addClass('is-active');
+  });
+
+  $('#tab_500maps').on('click', function(){
+    $('body').children('section').css('display', 'none');
+    $('#_500maps').css('display', 'block');
+    $('.header-tab').removeClass('is-active');
+    $(this).addClass('is-active');
+  });
+
+  $('#tab_settings').on('click', function(){
+    $('body').children('section').css('display', 'none');
+    $('#_settings').css('display', 'block');
+    $('.header-tab').removeClass('is-active');
+    $(this).addClass('is-active');
+  });
+
+
+//   ___   ___  ___
+// | __| /   \/   \  ___ __
+// `__ \|  O    O  || . \\ \/
+// |___/ \___/\___/ |  _//\_\
+//                  |_|
+
   // NOTE: ------- LOGISTICS -------
 
   var savedKey = null;
@@ -122,5 +158,12 @@ $(function(){
   $('.modal-background, .image-custom').on('click', function(){
     $('.modal').removeClass('is-active');
   });
+
+
+ //  / _` | '_ ` _ \ / _` | '_ \/ __|
+ // | (_| | | | | | | (_| | |_) \__ \
+ //  \__, |_| |_| |_|\__,_| .__/|___/
+ //  |___/                |_|
+
 
 });

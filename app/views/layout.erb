@@ -17,7 +17,7 @@
   <title>500px on Maps</title>
 </head>
 <body>
-
+  <billiam>
     <section class="hero is-primary">
       <div class="hero-content">
         <div class="container is-logo">
@@ -27,43 +27,41 @@
         </div>
       </div>
     </section>
+  </billiam>
 
   <header class="header">
-  <div class="container">
-    <!-- Left side -->
-    <div class="header-left">
-      <a class="header-tab is-active" href="#">
-        500px
-      </a>
-      <a class="header-tab" href="#">
-        Google Maps
-      </a>
-      <a class="header-tab" href="#">
-        500maps
-      </a>
-      <a class="header-tab" href="#">
-        Settings
-      </a>
-
+    <div class="container">
+      <!-- Left side -->
+      <div class="header-left">
+        <a id="tab_500px" class="header-tab is-active" href="#">
+          500px
+        </a>
+        <a id="tab_gmaps" class="header-tab" href="#">
+          Google Maps
+        </a>
+        <a id="tab_500maps" class="header-tab" href="#">
+          500maps
+        </a>
+        <a id="tab_settings" class="header-tab" href="#">
+          Settings
+        </a>
+      </div>
+      <!-- Hamburger menu (on mobile) -->
+      <span class="header-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+      <!-- Right side -->
+      <div class="header-right header-menu">
+        <a class="header-item" href="/">
+          <img src="http://www.nontopics.com/wp-content/uploads/2015/06/500px-logo.png" alt="500px Logo">
+          <span class="subtitle">on</span>
+          <img src="https://lh3.googleusercontent.com/MOf9Kxxkj7GvyZlTZOnUzuYv0JAweEhlxJX6gslQvbvlhLK5_bSTK6duxY2xfbBsj43H=w300" alt="gMaps Logo">
+        </a>
+      </div>
     </div>
-
-    <!-- Hamburger menu (on mobile) -->
-    <span class="header-toggle">
-      <span></span>
-      <span></span>
-      <span></span>
-    </span>
-
-    <!-- Right side -->
-    <div class="header-right header-menu">
-      <a class="header-item" href="/">
-        <img src="http://www.nontopics.com/wp-content/uploads/2015/06/500px-logo.png" alt="500px Logo">
-        <span class="subtitle">on</span>
-        <img src="https://lh3.googleusercontent.com/MOf9Kxxkj7GvyZlTZOnUzuYv0JAweEhlxJX6gslQvbvlhLK5_bSTK6duxY2xfbBsj43H=w300" alt="gMaps Logo">
-      </a>
-    </div>
-  </div>
-</header>
+  </header>
 
   <%= yield %>
 </body>

@@ -15,5 +15,5 @@ end
 # end
 
 # get '/test' do
-#   json ENV['500px']
+#   ENV['500px']
 # end
