@@ -1,3 +1,7 @@
+# my own reqs not a part of the skeleton
+require 'net/http'
+# end my own stuff
+
 require 'rubygems'
 require 'bundler/setup'
 

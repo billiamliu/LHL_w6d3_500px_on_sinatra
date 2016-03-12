@@ -12,3 +12,11 @@
 .image-custom img {
   max-height: 90vh;
 }
+
+.is-logo img {
+  max-height: 20px;
+}
+
+.hero {
+  cursor: default;
+}
