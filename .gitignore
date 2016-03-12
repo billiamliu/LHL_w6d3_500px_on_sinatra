@@ -1,4 +1,4 @@
-.env
+config/*.env
 .bundle
 /db/*.db
 /db/*.sqlite3
