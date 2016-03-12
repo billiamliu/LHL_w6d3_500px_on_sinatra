@@ -1,7 +1,6 @@
 # my own reqs not a part of the skeleton
 require 'net/http'
-require 'dotenv'
-Dotenv.load
+require 'env' if File.exists?('env.rb')
 # end my own stuff
 
 require 'rubygems'
