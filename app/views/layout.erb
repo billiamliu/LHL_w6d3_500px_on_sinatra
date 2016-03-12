@@ -6,18 +6,56 @@
     differences in how form elements appear between Firefox and IE
     See: http://necolas.github.com/normalize.css/
   -->
-  <link rel="stylesheet" href="/stylesheets/normalize.css">
-  <!--
-    application.css is where you put your styles
-  -->
+  <!-- <link rel="stylesheet" href="/stylesheets/normalize.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.0.16/css/bulma.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/stylesheets/application.css">
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="/javascript/application.js"></script>
 
-  <title></title>
+  <title>500px on Maps</title>
 </head>
 <body>
+  <header class="header">
+  <div class="container">
+    <!-- Left side -->
+    <div class="header-left">
+      <a class="header-item" href="#">
+        <img src="https://iso.500px.com/wp-content/uploads/2015/10/500px_logo_dark.png" alt="500px Logo">
+        <span class="subtitle">on</span>
+        <img src="https://lh3.googleusercontent.com/MOf9Kxxkj7GvyZlTZOnUzuYv0JAweEhlxJX6gslQvbvlhLK5_bSTK6duxY2xfbBsj43H=w300" alt="gMaps Logo">
+      </a>
+      <a class="header-tab" href="#">
+        Tab
+      </a>
+      <a class="header-tab is-active" href="#">
+        Active tab
+      </a>
+    </div>
+
+    <!-- Hamburger menu (on mobile) -->
+    <span class="header-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+
+    <!-- Right side -->
+    <div class="header-right header-menu">
+      <span class="header-item">
+        <a href="#">Nav item</a>
+      </span>
+      <span class="header-item">
+        <a href="#">Other nav item</a>
+      </span>
+      <span class="header-item">
+        <a class="button" href="#">Button</a>
+      </span>
+    </div>
+  </div>
+</header>
+
   <%= yield %>
 </body>
 </html>

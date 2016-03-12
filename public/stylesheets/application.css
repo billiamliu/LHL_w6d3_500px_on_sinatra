@@ -1,0 +1,14 @@
+/* NOTE: overwriting bulma's default of 640px */
+.modal-content {
+  width: 80vw;
+}
+
+/* NOTE: a custom image class without any aspect-ratio */
+.image-custom {
+  display: flex;
+  justify-content: center;
+}
+
+.image-custom img {
+  max-height: 90vh;
+}
