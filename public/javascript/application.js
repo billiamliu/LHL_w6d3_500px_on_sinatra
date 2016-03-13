@@ -160,12 +160,33 @@ $(function(){
 //                                   |_|
 
 var geoParams = {
-  geo: '59.325,18.071,1000km',
+  geo: '59.325,18.071,20000km',
   feature: 'highest_rated',
   page: 1,
   image_size: '3,1080',
   rpp: 100 //NOTE: 20-100 pictures per page/request
 };
+
+function convertToGeoJSON(json){
+  var arrWithGeo = json.photos.filter(function(photo){return photo.longitude;});
+  var result = {
+    type: 'FeatureCollection',
+    features: []
+  };
+
+  function feature(id, name, description, lng, lat, sm_url, lg_url){
+
+  }
+
+  arrWithGeo.forEach(function(photo){
+    result.features.push(new feature(
+
+    ));
+  });
+
+}
+testjson = {};
+console.log(convertToGeoJSON(testjson));
 
 var col1Text = 'Fetches pictures to console';
 $('#col-1').find('p').first().remove();
@@ -181,7 +202,6 @@ $('#btn-1').addClass('is-primary').on('click', function(){
 
     var photoArray = result.photos;
     var geoArray = photoArray.filter(function(photo){return photo.longitude;});
-    console.log(geoArray);
     update_map(geoArray);
   });
 });
@@ -201,7 +221,8 @@ function update_map(arr) {
               'marker-symbol': 'camera',
               'marker-color': '#1fc8db'
           }),
-          opacity: 0.5
+          opacity: 0.5,
+          clickable: true
         }
       );
       geoPhotos[photoObj.id].addTo(pic_map);
