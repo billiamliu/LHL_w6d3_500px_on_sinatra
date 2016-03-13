@@ -14,9 +14,21 @@
 }
 
 .is-logo img {
-  max-height: 20px;
+  max-height: 40px;
 }
 
 .hero {
   cursor: default;
+}
+
+.map-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  height: 70vh;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
 }

@@ -7,7 +7,7 @@ $(function(){
  // |_| |_| |_|\__,_|_|_| |_|
 
   // NOTE: ------- NAVIGATION -------
-  
+
   var hideSections = function(){
     $('body').children('section').hide();
   };
@@ -29,10 +29,11 @@ $(function(){
     updateNavTabs($(this));
   });
 
-  $('#tab_gmaps').on('click', function(){
+  $('#tab_mapbox').on('click', function(){
     hideSections();
-    $('#_gmaps').show();
+    $('#_mapbox').show();
     updateNavTabs($(this));
+    map.invalidateSize()
   });
 
   $('#tab_500maps').on('click', function(){
@@ -127,6 +128,36 @@ $(function(){
   // | (_| | | | | | | (_| | |_) \__ \
   //  \__, |_| |_| |_|\__,_|  __/|___/
   //  |___/                |_|
+
+  L.mapbox.accessToken = 'pk.eyJ1IjoiZnJlY2hkYWNoc3RlciIsImEiOiJjaWxwenoxYXkwOG1kdjZseWY2ZjdmeHhvIn0.vW1oq4fVhJwS-l4OFDtTQw';
+  var map = L.mapbox.map('map', 'mapbox.light').setView([59.325, 18.071], 12);
+
+  L.marker([59.325, 18.071], {
+    icon: L.mapbox.marker.icon({
+        'marker-size': 'small',
+        'marker-symbol': 'camera',
+        'marker-color': '#1fc8db'
+    })
+  }).addTo(map);
+
+  L.mapbox.featureLayer({ //NOTE: geojson
+    type: 'Feature',
+    geometry: {
+        type: 'Point',
+        coordinates: [
+          18.071, // NOTE: long
+          59.325  // NOTE: lat
+        ]
+    },
+    properties: {
+        title: 'Dummy Title',
+        description: 'Dummy description 123 hello hello',
+        'marker-size': 'small',
+        'marker-color': '#1fc8db',
+        'marker-symbol': 'camera'
+    }
+}).addTo(map);
+
 
 
 });
