@@ -33,13 +33,14 @@ $(function(){
     hideSections();
     $('#_mapbox').show();
     updateNavTabs($(this));
-    map.invalidateSize()
+    map.invalidateSize();
   });
 
   $('#tab_500maps').on('click', function(){
     hideSections();
     $('#_500maps').show();
     updateNavTabs($(this));
+    map.invalidateSize();
   });
 
   $('#tab_settings').on('click', function(){
@@ -59,7 +60,8 @@ $(function(){
   var myParams = {
     feature: 'highest_rated',
     page: 1,
-    image_size: '3,1080'
+    image_size: '3,1080',
+    rpp: 24 //NOTE: 20 pics per page/request
   };
 
   // - HELPER FOR PLACEHOLD.IT IMAGES -
@@ -72,7 +74,7 @@ $(function(){
     $('#result-col').children().remove();
     $('.modal').removeClass('is-active').find('img').remove();
     $('.modal').append('<img>').attr('src', 'http://placehold.it/800x600');
-    myParams['page'] = 0;
+    myParams.page = 0;
   }
 
   // NOTE: ------- BUTTONS -------
@@ -89,7 +91,7 @@ $(function(){
 
     $.getJSON('/500px', myParams, function(result){
       thisButton.removeClass('is-loading');
-      myParams['page']++; // NOTE: updates page count to get new images
+      myParams.page++; // NOTE: updates page count to get new images
 
       var photoArray = result.photos;
       photoArray.forEach(function(photoObj){
@@ -123,31 +125,22 @@ $(function(){
     $('.modal').removeClass('is-active');
   });
 
-  //   __ _ _ __ ___   __ _ _ __  ___
-  //  / _  |  _   _ \ / _  |  _ \/ __|
-  // | (_| | | | | | | (_| | |_) \__ \
-  //  \__, |_| |_| |_|\__,_|  __/|___/
-  //  |___/                |_|
+  //                        _
+  //  _ __ ___   __ _ _ __ | |__   _____  __
+  // |  _   _ \ / _  |  _ \|  _ \ / _ \ \/ /
+  // | | | | | | (_| | |_) | |_) | (_) >  <
+  // |_| |_| |_|\__,_| .__/|_.__/ \___/_/\_\
+  //                 |_|
 
   L.mapbox.accessToken = 'pk.eyJ1IjoiZnJlY2hkYWNoc3RlciIsImEiOiJjaWxwenoxYXkwOG1kdjZseWY2ZjdmeHhvIn0.vW1oq4fVhJwS-l4OFDtTQw';
-  var map = L.mapbox.map('map', 'mapbox.light').setView([59.325, 18.071], 12);
 
-  L.marker([59.325, 18.071], {
-    icon: L.mapbox.marker.icon({
-        'marker-size': 'small',
-        'marker-symbol': 'camera',
-        'marker-color': '#1fc8db'
-    })
-  }).addTo(map);
+  var map = L.mapbox.map('map', 'mapbox.light').setView([59.325, 18.071], 13);
 
   L.mapbox.featureLayer({ //NOTE: geojson
     type: 'Feature',
     geometry: {
         type: 'Point',
-        coordinates: [
-          18.071, // NOTE: long
-          59.325  // NOTE: lat
-        ]
+        coordinates: [ 18.071, 59.325 ] // NOTE: long, lat as per geojson spec
     },
     properties: {
         title: 'Dummy Title',
@@ -156,7 +149,42 @@ $(function(){
         'marker-color': '#1fc8db',
         'marker-symbol': 'camera'
     }
-}).addTo(map);
+  }).addTo(map);
+
+
+//  ____   ___   ___
+// | ___| / _ \ / _ \ _ __ ___   __ _ _ __  ___
+// |___ \| | | | | | |  _   _ \ / _  |  _ \/ __|
+//  ___) | |_| | |_| | | | | | | (_| | |_) \__ \
+// |____/ \___/ \___/|_| |_| |_|\__,_| .__/|___/
+//                                   |_|
+
+var geoParams = {
+  feature: 'highest_rated',
+  page: 1,
+  image_size: '3,1080',
+  rpp: 24 //NOTE: 20 pics per page/request
+};
+
+var col1Text = 'Fetches pictures to console';
+$('#col-1').find('p').first().remove();
+$('#col-1').prepend($('<p>').text(col1Text));
+
+$('#btn-1').addClass('is-primary').on('click', function(){
+  var thisButton = $(this);
+  thisButton.addClass('is-loading');
+
+  $.getJSON('/500px', geoParams, function(result){
+    thisButton.removeClass('is-loading');
+    geoParams.page++; // NOTE: updates page count to get new images
+
+    var photoArray = result.photos;
+    console.log(photoArray);
+  });
+});
+
+
+var pic_map = L.mapbox.map('pic_map', 'mapbox.light').setView([59.325, 18.071], 2);
 
 
 
