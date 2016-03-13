@@ -6,6 +6,32 @@ $(function(){
  // | | | | | | (_| | | | | |
  // |_| |_| |_|\__,_|_|_| |_|
 
+  // NOTE: ------- SETTINGS -------
+
+  L.mapbox.accessToken = 'pk.eyJ1IjoiZnJlY2hkYWNoc3RlciIsImEiOiJjaWxwenoxYXkwOG1kdjZseWY2ZjdmeHhvIn0.vW1oq4fVhJwS-l4OFDtTQw';
+
+  var myLocation = {
+    lng: 59.325,
+    lat: 18.071,
+    range: 20000 + 'km'
+  };
+
+  var myParams = { //500px page
+    feature: 'highest_rated',
+    page: 1,
+    image_size: '3,1080',
+    rpp: 24 //NOTE: 20 pics per page/request
+  };
+
+  var geoParams = { //500maps
+    geo: myLocation.lng + ',' + myLocation.lat + ',' + myLocation.range,
+    // geo: '59.325,18.071,20000km',
+    feature: 'highest_rated',
+    page: 1,
+    image_size: '3,1080',
+    rpp: 100 //NOTE: 20-100 pictures per page/request
+  };
+
   // NOTE: ------- NAVIGATION -------
 
   var hideSections = function(){
@@ -17,11 +43,10 @@ $(function(){
     tab.addClass('is-active');
   };
 
-
   // NOTE: initial state
   hideSections();
   $('#_hello').show();
-
+  // end initial state
 
   $('#tab_500px').on('click', function(){
     hideSections();
@@ -49,20 +74,13 @@ $(function(){
     updateNavTabs($(this));
   });
 
-//   ___   ___  ___
-// | __| /   \/   \  ___ __
-// `__ \|  O    O  || . \\ \/
-// |___/ \___/\___/ |  _//\_\
-//                  |_|
+  //   ___   ___  ___
+  // | __| /   \/   \  ___ __
+  // `__ \|  O    O  || . \\ \/
+  // |___/ \___/\___/ |  _//\_\
+  //                  |_|
 
   // NOTE: ------- LOGISTICS -------
-
-  var myParams = {
-    feature: 'highest_rated',
-    page: 1,
-    image_size: '3,1080',
-    rpp: 24 //NOTE: 20 pics per page/request
-  };
 
   // - HELPER FOR PLACEHOLD.IT IMAGES -
   var rand = function(){
@@ -113,7 +131,6 @@ $(function(){
 
   $("#result-col").on('click', 'img', function(){
     var url = $(this).closest('div').data('large-url');
-    // console.log(output);
     var modal = $('.modal').find('p');
     modal.children('img').remove();
     var img = $('<img>').attr('src', url);
@@ -132,7 +149,6 @@ $(function(){
   // |_| |_| |_|\__,_| .__/|_.__/ \___/_/\_\
   //                 |_|
 
-  L.mapbox.accessToken = 'pk.eyJ1IjoiZnJlY2hkYWNoc3RlciIsImEiOiJjaWxwenoxYXkwOG1kdjZseWY2ZjdmeHhvIn0.vW1oq4fVhJwS-l4OFDtTQw';
 
   // var map = L.mapbox.map('map', 'mapbox.light').setView([59.325, 18.071], 13);
 
@@ -152,129 +168,93 @@ $(function(){
   // }).addTo(map);
 
 
-//  ____   ___   ___
-// | ___| / _ \ / _ \ _ __ ___   __ _ _ __  ___
-// |___ \| | | | | | |  _   _ \ / _  |  _ \/ __|
-//  ___) | |_| | |_| | | | | | | (_| | |_) \__ \
-// |____/ \___/ \___/|_| |_| |_|\__,_| .__/|___/
-//                                   |_|
+  //  ____   ___   ___
+  // | ___| / _ \ / _ \ _ __ ___   __ _ _ __  ___
+  // |___ \| | | | | | |  _   _ \ / _  |  _ \/ __|
+  //  ___) | |_| | |_| | | | | | | (_| | |_) \__ \
+  // |____/ \___/ \___/|_| |_| |_|\__,_| .__/|___/
+  //                                   |_|
 
-var geoParams = {
-  geo: '59.325,18.071,20000km',
-  feature: 'highest_rated',
-  page: 1,
-  image_size: '3,1080',
-  rpp: 100 //NOTE: 20-100 pictures per page/request
-};
+  $('#btn-1').text('find some pictures').on('click', function(){
+    var thisButton = $(this);
+    thisButton.addClass('is-loading');
 
-var col1Text = 'Fetches pictures to console';
-$('#col-1').find('p').first().remove();
-$('#col-1').prepend($('<p>').text(col1Text));
+  $.getJSON('/500px', geoParams, function(result){
+      thisButton.removeClass('is-loading');
+      geoParams.page++; // NOTE: updates page count to get new images
 
-$('#btn-1').on('click', function(){
-  var thisButton = $(this);
-  thisButton.addClass('is-loading');
-
-$.getJSON('/500px', geoParams, function(result){
-    thisButton.removeClass('is-loading');
-    geoParams.page++; // NOTE: updates page count to get new images
-
-    // var photoArray = result.photos;
-    // var geoArray = photoArray.filter(function(photo){return photo.longitude;});
-    // update_map(geoArray);
-    var geojson = convertToGeoJSON(result);
-    myLayer.setGeoJSON(geojson);
+      var geojson = convertToGeoJSON(result);
+      myLayer.setGeoJSON(geojson);
+    });
   });
-});
 
-function convertToGeoJSON(json){
-  var arrWithGeo = json.photos.filter(function(photo){return photo.longitude;});
-  var result = {
-    type: 'FeatureCollection',
-    features: []
-  };
-  // feature constructor
-  function feature(id, name, description, lng, lat, sm_url, lg_url){
-    this.type = 'Feature';
-    this.properties = {
-      title: name,
-      'marker-size': 'small',
-      'marker-symbol': 'camera',
-      'marker-color': '#1fc8db',
-      small_url: sm_url,
-      large_url: lg_url
+  function convertToGeoJSON(json){
+    var arrWithGeo = json.photos.filter(function(photo){return photo.longitude;});
+    var result = {
+      type: 'FeatureCollection',
+      features: []
     };
-    this.geometry = {
-      type: 'Point',
-      coordinates: [lng, lat]
-    };
+    // feature constructor
+    function feature(id, name, description, lng, lat, sm_url, lg_url){
+      this.type = 'Feature';
+      this.properties = {
+        id: id,
+        title: name,
+        description: description,
+        'marker-size': 'small',
+        'marker-symbol': 'camera',
+        'marker-color': '#1fc8db',
+        small_url: sm_url,
+        large_url: lg_url
+      };
+      this.geometry = {
+        type: 'Point',
+        coordinates: [lng, lat]
+      };
+    }
+    // feature looper
+    arrWithGeo.forEach(function(photo){
+      result.features.push(new feature(
+        photo.id,
+        photo.name,
+        photo.description,
+        photo.longitude,
+        photo.latitude,
+        photo.images[0].url,
+        photo.images[1].url
+      ));
+    });
+    return result;
   }
-  // feature looper
-  arrWithGeo.forEach(function(photo){
-    result.features.push(new feature(
-      photo.id,
-      photo.name,
-      photo.description,
-      photo.longitude,
-      photo.latitude,
-      photo.images[0].url,
-      photo.images[1].url
-    ));
+
+  // mapbox interaction
+  var pic_map = L.mapbox.map('pic_map', 'mapbox.light').setView([myLocation.lng, myLocation.lat], 3);
+  var myLayer = L.mapbox.featureLayer().on('layeradd', function(e) {
+      var prop = e.layer.feature.properties;
+      e.layer.bindPopup(
+        '<img src="' + prop.small_url + '" />',
+        {
+          minWidth: 300,
+          closeButton: false
+        });
+      }).addTo(pic_map);
+
+  myLayer.on('mouseover', function(e) {
+    e.layer.openPopup();
   });
-  return result;
-}
+  myLayer.on('mouseout', function(e) {
+    e.layer.closePopup();
+  });
 
-// mapbox interaction
-var pic_map = L.mapbox.map('pic_map', 'mapbox.light').setView([59.325, 18.071], 3);
-var myLayer = L.mapbox.featureLayer().on('layeradd', function(e) {
-    var prop = e.layer.feature.properties;
-    e.layer.bindPopup(
-      '<img src="' + prop.small_url + '" /><p class="subtitle">' + prop.title + '</p>',
-      {
-        minWidth: 300,
-        closeButton: false
-      });
-    }).addTo(pic_map);
-myLayer.on('mouseover', function(e) {
-  e.layer.openPopup();
-});
-myLayer.on('mouseout', function(e) {
-  e.layer.closePopup();
-});
-
-
-
-
-// // NOTE: stuff below is for static loading of markers to the map
-// var geoPhotos = {};
-
-// function update_map(arr) {
-//   arr.forEach(function(photoObj){
-//     if (geoPhotos[photoObj.id] === undefined){
-//       geoPhotos[photoObj.id] = L.marker(
-//         [photoObj.latitude, photoObj.longitude],
-//         {
-//           icon: L.mapbox.marker.icon({
-//               'marker-size': 'small',
-//               'marker-symbol': 'camera',
-//               'marker-color': '#1fc8db'
-//           }),
-//           opacity: 0.5,
-//           clickable: true
-//         }
-//       );
-//       geoPhotos[photoObj.id].addTo(pic_map);
-//     } else {
-//       geoPhotos[photoObj.id].setLatLng([photoObj.latitude, photoObj.longtitude]).update();
-//     }
-//   });
-// }
-
-
-
-
-
-
+  // modal
+  myLayer.on('click', function(e){
+    var prop = e.layer.feature.properties,
+        modal = $('.modal'),
+        img = $('<img>').attr('src', prop.large_url);
+    modal.find('img').remove();
+    modal.find('p').append(img);
+    modal.addClass('is-active');
+  });
 
 
 });
