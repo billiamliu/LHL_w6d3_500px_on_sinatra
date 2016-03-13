@@ -7,34 +7,43 @@ $(function(){
  // |_| |_| |_|\__,_|_|_| |_|
 
   // NOTE: ------- NAVIGATION -------
-  $('#tab_500px').on('click', function(){
-    $('body').children('section').css('display', 'none');
-    $('#_500px').css('display', 'block');
+  var sections = $('body').children('section');
+  var hideSections = function(){
+    sections.hide();
+  };
+  var updateNavTabs = function(tab){
     $('.header-tab').removeClass('is-active');
-    $(this).addClass('is-active');
+    tab.addClass('is-active');
+  };
+
+  // NOTE: initial state
+  hideSections();
+  $('#_hello').show();
+
+
+  $('#tab_500px').on('click', function(){
+    hideSections();
+    $('#_500px').show();
+    updateNavTabs($(this));
   });
 
   $('#tab_gmaps').on('click', function(){
-    $('body').children('section').css('display', 'none');
-    $('#_gmaps').css('display', 'block');
-    $('.header-tab').removeClass('is-active');
-    $(this).addClass('is-active');
+    hideSections();
+    $('#_gmaps').show();
+    updateNavTabs($(this));
   });
 
   $('#tab_500maps').on('click', function(){
-    $('body').children('section').css('display', 'none');
-    $('#_500maps').css('display', 'block');
-    $('.header-tab').removeClass('is-active');
-    $(this).addClass('is-active');
+    hideSections();
+    $('#_500maps').show();
+    updateNavTabs($(this));
   });
 
   $('#tab_settings').on('click', function(){
-    $('body').children('section').css('display', 'none');
-    $('#_settings').css('display', 'block');
-    $('.header-tab').removeClass('is-active');
-    $(this).addClass('is-active');
+    hideSections();
+    $('#_settings').show();
+    updateNavTabs($(this));
   });
-
 
 //   ___   ___  ___
 // | __| /   \/   \  ___ __
@@ -44,28 +53,7 @@ $(function(){
 
   // NOTE: ------- LOGISTICS -------
 
-  var savedKey = null;
-
-  $('#btn-0').text('save key until page refresh');
-  $('#btn-0').one('click',function(){
-    savedKey = $('#consumer_key').val();
-    $(this).addClass('is-disabled');
-  });
-
-  var myConsumerKey = function(){
-    if (savedKey) {
-      return savedKey;
-    }
-    else if ($('#consumer_key').val()){
-      return $('#consumer_key').val();
-    }
-    else {
-      return prompt('Enter API key');
-    }
-  };
-
   var myParams = {
-    consumer_key: myConsumerKey,
     feature: 'highest_rated',
     page: 1,
     image_size: '3,1080'
@@ -76,34 +64,19 @@ $(function(){
     return Math.floor(Math.random() * (1440 - 400 + 1)) + 400;
   };
 
-  // - NUKE ON KEYPRESS -
+  // - NUKE RESULTS -
   function nuke (){
     $('#result-col').children().remove();
     $('.modal').removeClass('is-active').find('img').remove();
     $('.modal').append('<img>').attr('src', 'http://placehold.it/800x600');
+    myParams['page'] = 0;
   }
+
+  // NOTE: ------- BUTTONS -------
+
   $('#nuke').on('click', nuke);
 
-  // NOTE: ------- TEST BUTTONS -------
-
-  // NOTE: this is a local sandbox button without invoking the API
-  var col1Text = 'add random placeholder images to DOM';
-  $('#col-1').find('p').first().remove();
-  $('#col-1').prepend($('<p>').text(col1Text));
-  $('#btn-1').on('click', function(){
-    var attributes = {
-      class: "column",
-      'data-id': "img-1",
-      'data-large-url': "http://placehold.it/" + rand() + 'x' + rand()
-    };
-    var div = $('<div>').attr(attributes).addClass('is-3');
-    var img = $('<img>').attr('src', 'http://placehold.it/' + rand() + 'x' + rand());
-    div.append(img);
-    $('#result-col').append(div);
-  });
-
-  // NOTE: button 2 for modal development
-  var col2Text = 'modal development';
+  var col2Text = 'Use local server to inject API key and fetch images';
   $('#col-2').find('p').first().remove();
   $('#col-2').prepend($('<p>').text(col2Text));
 
@@ -111,7 +84,7 @@ $(function(){
     var thisButton = $(this);
     thisButton.addClass('is-loading');
 
-    $.getJSON('https://api.500px.com/v1/photos', myParams, function(result){
+    $.getJSON('/500px', myParams, function(result){
       thisButton.removeClass('is-loading');
       myParams['page']++; // NOTE: updates page count to get new images
 
@@ -127,23 +100,6 @@ $(function(){
         var img = $('<img>').attr('src', url);
         div.append(img);
         $('#result-col').prepend(div);
-      });
-    });
-
-  });
-
-  // NOTE: this works
-  var col3Text = 'load some images to console';
-  $('#col-3').find('p').first().remove();
-  $('#col-3').prepend($('<p>').text(col3Text));
-  $('#btn-3').addClass('is-warning').on('click', function(){
-    var thisButton = $(this);
-    thisButton.addClass('is-loading');
-    $.getJSON('https://api.500px.com/v1/photos', myParams, function(result){
-      thisButton.removeClass('is-loading');
-      var photoArray = result.photos;
-      photoArray.forEach(function(photoObj){
-        console.log('photoObj');
       });
     });
   });

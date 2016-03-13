@@ -2,10 +2,18 @@ get '/' do
   erb :index
 end
 
+# get '/500px' do #NOTE: has access to params from the request URL
+#   key = Key.where(site: '500px').first.key
+#   # key = ENV['500px']
+#   uri = URI("https://api.500px.com/v1/photos?consumer_key=#{key}&feature=highest_rated&image_size=3")
+#   Net::HTTP.get(uri)
+# end
+
 get '/500px' do #NOTE: has access to params from the request URL
   key = Key.where(site: '500px').first.key
-  # key = ENV['500px']
-  uri = URI("https://api.500px.com/v1/photos?consumer_key=#{key}&feature=highest_rated&image_size=3")
+  params[:consumer_key] = key
+  uri = URI('https://api.500px.com/v1/photos')
+  uri.query = URI.encode_www_form(params)
   Net::HTTP.get(uri)
 end
 
