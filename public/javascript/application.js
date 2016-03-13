@@ -17,20 +17,30 @@ $(function(){
   };
 
   var myParams = { //500px page
-    feature: 'highest_rated',
-    page: 1,
+    feature: 'fresh_today',
     image_size: '3,1080',
-    rpp: 24 //NOTE: 20 pics per page/request
+    sort: 'rating',
+    page: 1,
+    rpp: 24 //NOTE: 24 pics per request
   };
 
   var geoParams = { //500maps
-    geo: myLocation.lng + ',' + myLocation.lat + ',' + myLocation.range,
-    // geo: '59.325,18.071,20000km',
-    feature: 'highest_rated',
-    page: 1,
+    feature: 'fresh_today',
     image_size: '3,1080',
-    rpp: 100 //NOTE: 20-100 pictures per page/request
+    geo: myLocation.lng + ',' + myLocation.lat + ',' + myLocation.range,
+    page: 1,
+    rpp: 100 //NOTE: 20-100 pictures per request
   };
+
+  $('#set_button').on('click', function(){
+    $(this).addClass('is-loading');
+    myParams.feature = geoParams.feature = $('#set_feature').val();
+    myParams.image_size = geoParams.image_size = '3,' + $('#set_size').val();
+    myParams.only = geoParams.only = $('#set_category').val();
+    setTimeout(function(){
+      $('#set_button').removeClass('is-loading');
+    }, 600);
+  });
 
   // NOTE: ------- NAVIGATION -------
 
