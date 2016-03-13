@@ -167,6 +167,26 @@ var geoParams = {
   rpp: 100 //NOTE: 20-100 pictures per page/request
 };
 
+var col1Text = 'Fetches pictures to console';
+$('#col-1').find('p').first().remove();
+$('#col-1').prepend($('<p>').text(col1Text));
+
+$('#btn-1').on('click', function(){
+  var thisButton = $(this);
+  thisButton.addClass('is-loading');
+
+$.getJSON('/500px', geoParams, function(result){
+    thisButton.removeClass('is-loading');
+    geoParams.page++; // NOTE: updates page count to get new images
+
+    // var photoArray = result.photos;
+    // var geoArray = photoArray.filter(function(photo){return photo.longitude;});
+    // update_map(geoArray);
+    var geojson = convertToGeoJSON(result);
+    myLayer.setGeoJSON(geojson);
+  });
+});
+
 function convertToGeoJSON(json){
   var arrWithGeo = json.photos.filter(function(photo){return photo.longitude;});
   var result = {
@@ -204,30 +224,17 @@ function convertToGeoJSON(json){
   return result;
 }
 
-var col1Text = 'Fetches pictures to console';
-$('#col-1').find('p').first().remove();
-$('#col-1').prepend($('<p>').text(col1Text));
-
-$('#btn-1').on('click', function(){
-  var thisButton = $(this);
-  thisButton.addClass('is-loading');
-
-$.getJSON('/500px', geoParams, function(result){
-    thisButton.removeClass('is-loading');
-    geoParams.page++; // NOTE: updates page count to get new images
-
-    // var photoArray = result.photos;
-    // var geoArray = photoArray.filter(function(photo){return photo.longitude;});
-    // update_map(geoArray);
-    var geojson = convertToGeoJSON(result);
-    myLayer.setGeoJSON(geojson);
-  });
-});
-
+// mapbox interaction
 var pic_map = L.mapbox.map('pic_map', 'mapbox.light').setView([59.325, 18.071], 3);
-
-var myLayer = L.mapbox.featureLayer().addTo(pic_map);
-
+var myLayer = L.mapbox.featureLayer().on('layeradd', function(e) {
+    var prop = e.layer.feature.properties;
+    e.layer.bindPopup(
+      '<img src="' + prop.small_url + '" /><p class="subtitle">' + prop.title + '</p>',
+      {
+        minWidth: 300,
+        closeButton: false
+      });
+    }).addTo(pic_map);
 myLayer.on('mouseover', function(e) {
   e.layer.openPopup();
 });
