@@ -7,14 +7,16 @@ $(function(){
  // |_| |_| |_|\__,_|_|_| |_|
 
   // NOTE: ------- NAVIGATION -------
-  var sections = $('body').children('section');
+  
   var hideSections = function(){
-    sections.hide();
+    $('body').children('section').hide();
   };
+
   var updateNavTabs = function(tab){
     $('.header-tab').removeClass('is-active');
     tab.addClass('is-active');
   };
+
 
   // NOTE: initial state
   hideSections();
