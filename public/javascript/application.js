@@ -182,11 +182,53 @@ $('#btn-1').addClass('is-primary').on('click', function(){
     var photoArray = result.photos;
     var geoArray = photoArray.filter(function(photo){return photo.longitude;});
     console.log(geoArray);
+    update_map(geoArray);
   });
 });
 
-
 var pic_map = L.mapbox.map('pic_map', 'mapbox.light').setView([59.325, 18.071], 3);
+
+
+var geoPhotos = {};
+
+function update_map(arr) {
+  arr.forEach(function(photoObj){
+    if (geoPhotos[photoObj.id] === undefined){
+      geoPhotos[photoObj.id] = L.marker([photoObj.latitude, photoObj.longitude], {
+        icon: L.mapbox.marker.icon({
+            'marker-size': 'small',
+            'marker-symbol': 'camera',
+            'marker-color': '#1fc8db'
+        })
+      });
+      geoPhotos[photoObj.id].addTo(pic_map);
+    } else {
+      geoPhotos[photoObj.id].setLatLng([photoObj.latitude, photoObj.longtitude]).update();
+    }
+  });
+}
+
+// function update_map(data) {
+//     $.each(data, function(i, elm) {
+//       if (buses[elm.VehicleNo] === undefined) {
+//         buses[elm.VehicleNo] = L.marker([elm.Latitude, elm.Longitude], {
+//           icon: L.mapbox.marker.icon({
+//               'marker-size': 'large',
+//               'marker-symbol': 'bus',
+//               'marker-color': '#fa0'
+//           })
+//         });
+//         buses[elm.VehicleNo].addTo(map);
+//       } else {
+//         buses[elm.VehicleNo].setLatLng([elm.Latitude, elm.Longitude]).update();
+//       }
+//     });
+//   }
+
+
+
+
+
 
 
 
