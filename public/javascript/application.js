@@ -11,6 +11,7 @@ $(function(){
   L.mapbox.accessToken = 'pk.eyJ1IjoiZnJlY2hkYWNoc3RlciIsImEiOiJjaWxwenoxYXkwOG1kdjZseWY2ZjdmeHhvIn0.vW1oq4fVhJwS-l4OFDtTQw';
 
   var myLocation = {
+    city: 'Stockholm',
     lng: 59.325,
     lat: 18.071,
     range: 20000 + 'km'
@@ -41,6 +42,12 @@ $(function(){
       $('#set_button').removeClass('is-loading');
     }, 600);
   });
+
+  // custom coordinates currently disabled
+  $('#input_city').attr('placeholder', 'City: ' + myLocation.city);
+  $('#input_lng').attr('placeholder', 'Longitude: ' + myLocation.lng);
+  $('#input_lat').attr('placeholder', 'Latitude: ' + myLocation.lat);
+  $('#input_range').attr('placeholder', 'Search Range: ' + myLocation.range);
 
   // NOTE: ------- NAVIGATION -------
 
