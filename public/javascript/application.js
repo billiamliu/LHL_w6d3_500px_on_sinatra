@@ -201,70 +201,68 @@ function convertToGeoJSON(json){
       photo.images[1].url
     ));
   });
-  // return result;
-  console.log(result);
+  return result;
 }
 
 var col1Text = 'Fetches pictures to console';
 $('#col-1').find('p').first().remove();
 $('#col-1').prepend($('<p>').text(col1Text));
 
-$('#btn-1').addClass('is-primary').on('click', function(){
+$('#btn-1').on('click', function(){
   var thisButton = $(this);
   thisButton.addClass('is-loading');
 
-  $.getJSON('/500px', geoParams, function(result){
+$.getJSON('/500px', geoParams, function(result){
     thisButton.removeClass('is-loading');
     geoParams.page++; // NOTE: updates page count to get new images
 
     // var photoArray = result.photos;
     // var geoArray = photoArray.filter(function(photo){return photo.longitude;});
     // update_map(geoArray);
-    convertToGeoJSON(result);
+    var geojson = convertToGeoJSON(result);
+    myLayer.setGeoJSON(geojson);
   });
 });
 
 var pic_map = L.mapbox.map('pic_map', 'mapbox.light').setView([59.325, 18.071], 3);
 
+var myLayer = L.mapbox.featureLayer().addTo(pic_map);
 
-var geoPhotos = {};
-function update_map(arr) {
-  arr.forEach(function(photoObj){
-    if (geoPhotos[photoObj.id] === undefined){
-      geoPhotos[photoObj.id] = L.marker(
-        [photoObj.latitude, photoObj.longitude],
-        {
-          icon: L.mapbox.marker.icon({
-              'marker-size': 'small',
-              'marker-symbol': 'camera',
-              'marker-color': '#1fc8db'
-          }),
-          opacity: 0.5,
-          clickable: true
-        }
-      );
-      geoPhotos[photoObj.id].addTo(pic_map);
-    } else {
-      geoPhotos[photoObj.id].setLatLng([photoObj.latitude, photoObj.longtitude]).update();
-    }
-  });
-}
+myLayer.on('mouseover', function(e) {
+  e.layer.openPopup();
+});
+myLayer.on('mouseout', function(e) {
+  e.layer.closePopup();
+});
 
 
-// L.mapbox.featureLayer({ //NOTE: geojson
-//   type: 'Feature',
-//   geometry: {
-//       type: 'Point',
-//       coordinates: [ 18.071, 59.325 ] // NOTE: long, lat as per geojson spec
-//   },
-//   properties: {
-//       title: 'Dummy Title',
-//       description: 'Dummy description 123 hello hello',
-//       'marker-size': 'small',
-//       'marker-color': '#1fc8db',
-//       'marker-symbol': 'camera'
-//   }
-// }).addTo(map);
+
+
+// // NOTE: stuff below is for static loading of markers to the map
+// var geoPhotos = {};
+
+// function update_map(arr) {
+//   arr.forEach(function(photoObj){
+//     if (geoPhotos[photoObj.id] === undefined){
+//       geoPhotos[photoObj.id] = L.marker(
+//         [photoObj.latitude, photoObj.longitude],
+//         {
+//           icon: L.mapbox.marker.icon({
+//               'marker-size': 'small',
+//               'marker-symbol': 'camera',
+//               'marker-color': '#1fc8db'
+//           }),
+//           opacity: 0.5,
+//           clickable: true
+//         }
+//       );
+//       geoPhotos[photoObj.id].addTo(pic_map);
+//     } else {
+//       geoPhotos[photoObj.id].setLatLng([photoObj.latitude, photoObj.longtitude]).update();
+//     }
+//   });
+// }
+
 
 
 
