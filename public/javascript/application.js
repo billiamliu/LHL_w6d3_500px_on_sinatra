@@ -173,20 +173,37 @@ function convertToGeoJSON(json){
     type: 'FeatureCollection',
     features: []
   };
-
+  // feature constructor
   function feature(id, name, description, lng, lat, sm_url, lg_url){
-
+    this.type = 'Feature';
+    this.properties = {
+      title: name,
+      'marker-size': 'small',
+      'marker-symbol': 'camera',
+      'marker-color': '#1fc8db',
+      small_url: sm_url,
+      large_url: lg_url
+    };
+    this.geometry = {
+      type: 'Point',
+      coordinates: [lng, lat]
+    };
   }
-
+  // feature looper
   arrWithGeo.forEach(function(photo){
     result.features.push(new feature(
-
+      photo.id,
+      photo.name,
+      photo.description,
+      photo.longitude,
+      photo.latitude,
+      photo.images[0].url,
+      photo.images[1].url
     ));
   });
-
+  // return result;
+  console.log(result);
 }
-testjson = {};
-console.log(convertToGeoJSON(testjson));
 
 var col1Text = 'Fetches pictures to console';
 $('#col-1').find('p').first().remove();
@@ -200,9 +217,10 @@ $('#btn-1').addClass('is-primary').on('click', function(){
     thisButton.removeClass('is-loading');
     geoParams.page++; // NOTE: updates page count to get new images
 
-    var photoArray = result.photos;
-    var geoArray = photoArray.filter(function(photo){return photo.longitude;});
-    update_map(geoArray);
+    // var photoArray = result.photos;
+    // var geoArray = photoArray.filter(function(photo){return photo.longitude;});
+    // update_map(geoArray);
+    convertToGeoJSON(result);
   });
 });
 
