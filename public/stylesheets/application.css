@@ -28,7 +28,7 @@
   height: 70vh;
 }
 
-#map {
+#map, #pic_map {
   height: 100%;
   width: 100%;
 }

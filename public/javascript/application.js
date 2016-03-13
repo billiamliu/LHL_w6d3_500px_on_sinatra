@@ -33,14 +33,14 @@ $(function(){
     hideSections();
     $('#_mapbox').show();
     updateNavTabs($(this));
-    map.invalidateSize();
+    // map.invalidateSize();
   });
 
   $('#tab_500maps').on('click', function(){
     hideSections();
     $('#_500maps').show();
     updateNavTabs($(this));
-    map.invalidateSize();
+    pic_map.invalidateSize();
   });
 
   $('#tab_settings').on('click', function(){
@@ -134,22 +134,22 @@ $(function(){
 
   L.mapbox.accessToken = 'pk.eyJ1IjoiZnJlY2hkYWNoc3RlciIsImEiOiJjaWxwenoxYXkwOG1kdjZseWY2ZjdmeHhvIn0.vW1oq4fVhJwS-l4OFDtTQw';
 
-  var map = L.mapbox.map('map', 'mapbox.light').setView([59.325, 18.071], 13);
+  // var map = L.mapbox.map('map', 'mapbox.light').setView([59.325, 18.071], 13);
 
-  L.mapbox.featureLayer({ //NOTE: geojson
-    type: 'Feature',
-    geometry: {
-        type: 'Point',
-        coordinates: [ 18.071, 59.325 ] // NOTE: long, lat as per geojson spec
-    },
-    properties: {
-        title: 'Dummy Title',
-        description: 'Dummy description 123 hello hello',
-        'marker-size': 'small',
-        'marker-color': '#1fc8db',
-        'marker-symbol': 'camera'
-    }
-  }).addTo(map);
+  // L.mapbox.featureLayer({ //NOTE: geojson
+  //   type: 'Feature',
+  //   geometry: {
+  //       type: 'Point',
+  //       coordinates: [ 18.071, 59.325 ] // NOTE: long, lat as per geojson spec
+  //   },
+  //   properties: {
+  //       title: 'Dummy Title',
+  //       description: 'Dummy description 123 hello hello',
+  //       'marker-size': 'small',
+  //       'marker-color': '#1fc8db',
+  //       'marker-symbol': 'camera'
+  //   }
+  // }).addTo(map);
 
 
 //  ____   ___   ___
@@ -160,10 +160,11 @@ $(function(){
 //                                   |_|
 
 var geoParams = {
+  geo: '59.325,18.071,1000km',
   feature: 'highest_rated',
   page: 1,
   image_size: '3,1080',
-  rpp: 24 //NOTE: 20 pics per page/request
+  rpp: 100 //NOTE: 20-100 pictures per page/request
 };
 
 var col1Text = 'Fetches pictures to console';
@@ -179,12 +180,13 @@ $('#btn-1').addClass('is-primary').on('click', function(){
     geoParams.page++; // NOTE: updates page count to get new images
 
     var photoArray = result.photos;
-    console.log(photoArray);
+    var geoArray = photoArray.filter(function(photo){return photo.longitude;});
+    console.log(geoArray);
   });
 });
 
 
-var pic_map = L.mapbox.map('pic_map', 'mapbox.light').setView([59.325, 18.071], 2);
+var pic_map = L.mapbox.map('pic_map', 'mapbox.light').setView([59.325, 18.071], 3);
 
 
 
