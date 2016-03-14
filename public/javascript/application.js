@@ -51,6 +51,8 @@ $(function(){
       $('#set_button').removeClass('is-loading');
       $('#set_notification').slideDown();
     }, 800);
+    query500px();
+    query500maps();
   });
 
   // custom coordinates currently disabled
