@@ -86,9 +86,11 @@ $(function(){
 
   // - NUKE RESULTS for 500px page -
   function nuke (){
+    var modal = $('.modal');
     $('#result-col').children().remove();
-    $('.modal').removeClass('is-active').find('img').remove();
-    $('.modal').append('<img>').attr('src', 'http://placehold.it/800x600');
+    modal.removeClass('is-active');
+    modal.find('img').attr('src', 'http://placehold.it/800x600');
+    modal.find('a').attr('src', '#');
     myParams.page = 0;
   }
 
@@ -166,12 +168,11 @@ $(function(){
       photoArray.forEach(function(photoObj){
         var url = photoObj.images[0].url; // NOTE: Arr[0] is the first image size, [1] is the second image size
         var attributes = {
-          class: 'column',
           'data-id': '500px-' + photoObj.id,
           'data-large-url': photoObj.images[1].url,
           'data-username': photoObj.user.username
         };
-        var div = $('<div>').addClass('is-3-desktop').addClass('is-6-mobile');
+        var div = $('<div>').addClass('column').addClass('is-3-desktop').addClass('is-4-mobile');
         var img = $('<img>').attr('src', url).attr(attributes);
         div.append(img);
         $('#result-col').prepend(div);
@@ -184,12 +185,12 @@ $(function(){
 
   // modal
   $("#result-col").on('click', 'img', function(){
-    var url = $(this).data('large-url');
-    var modal = $('.modal').find('p');
-    modal.children('img').remove();
-    var img = $('<img>').attr('src', url);
-    modal.append(img);
-    $('.modal').addClass('is-active');
+    var url = $(this).data('large-url'),
+        usr = $(this).data('username'),
+        modal = $('.modal');
+    modal.find('p').find('img').attr('src', url);
+    modal.find('a').attr('href', 'https://500px.com/' + usr).find('i').text(' see more by '+usr);
+    modal.addClass('is-active');
   });
 
 
@@ -284,6 +285,7 @@ $(function(){
         img = $('<img>').attr('src', prop.large_url);
     modal.find('img').remove();
     modal.find('p').append(img);
+    modal.find('a').attr('href', 'https://500px.com/' + prop.username).find('i').text(' see more by '+prop.username);
     modal.addClass('is-active');
   });
 
