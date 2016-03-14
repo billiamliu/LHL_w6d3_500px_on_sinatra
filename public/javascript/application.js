@@ -67,7 +67,9 @@ $(function(){
 
   var updateNavTabs = function(tab){
     $('.header-tab').removeClass('is-active');
-    tab.addClass('is-active');
+    if(tab){
+      tab.addClass('is-active');
+    }
   };
 
   // NOTE: initial state
@@ -96,14 +98,14 @@ $(function(){
 
   // NOTE: ------- NAVIGATION -------
 
-  $('#tab_500px').on('click', function(){
+  $('#tab_500px, #mobi_500px').on('click', function(){
     hideSections();
     $('#_500px').show();
     updateNavTabs($(this));
     if ($('#result-col').children().length < 1){query500px();}
   });
 
-  $('#tab_500maps').on('click', function(){
+  $('#tab_500maps, #mobi_500maps').on('click', function(){
     hideSections();
     $('#_500maps').show();
     updateNavTabs($(this));
@@ -111,11 +113,17 @@ $(function(){
     if (!myLayer._geojson){query500maps();}
   });
 
-  $('#tab_settings').on('click', function(){
+  $('#tab_settings, #mobi_settings').on('click', function(){
     hideSections();
     $('#set_notification').hide();
     $('#_settings').show();
     updateNavTabs($(this));
+  });
+
+  $('#header_right').on('click', function(){
+    hideSections();
+    $('#_hello').show();
+    updateNavTabs();
   });
 
   //  ___   ___  ___

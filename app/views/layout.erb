@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!--
-    normalize.css removes cross-browser differences in defaults, e.g.,
-    differences in how form elements appear between Firefox and IE
-    See: http://necolas.github.com/normalize.css/
-  -->
-  <!-- <link rel="stylesheet" href="/stylesheets/normalize.css"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.0.16/css/bulma.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/stylesheets/application.css">
   <link href='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css' rel='stylesheet' />
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="/javascript/application.js"></script>
-  <!-- <script src='https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'></script> -->
 
   <!-- NOTE: this is the modified SDK, rerouted to '/mapbox' for API key injection -->
   <script src='/javascript/mapbox.2.3.0.js'></script>
@@ -38,7 +33,7 @@
   <header class="header">
     <div class="container">
       <!-- Left side -->
-      <div class="header-left">
+      <div class="header-left is-hidden-mobile">
         <a id="tab_500px" class="header-tab">
           500px
         </a>
@@ -50,14 +45,15 @@
         </a>
       </div>
       <!-- Hamburger menu (on mobile) -->
-      <span class="header-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </span>
+        <div class="header is-centered is-hidden-tablet">
+          <a id="mobi_500px" class="header-tab">500px</a>
+          <a id="mobi_500maps" class="header-tab">500maps</a>
+          <a id="mobi_settings" class="header-tab">settings</a>
+        </div>
+
       <!-- Right side -->
       <div class="header-right header-menu">
-        <a class="header-item" href="/">
+        <a class="header-item" id="header_right">
           <img src="/images/500px.png" alt="500px Logo">
           <span class="subtitle">on</span>
           <img src="/images/mapbox.png" alt="mapbox Logo">
