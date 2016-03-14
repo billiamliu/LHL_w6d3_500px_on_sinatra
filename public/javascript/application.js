@@ -137,6 +137,12 @@ $(function(){
   	}
   });
 
+  $(window).scroll(function() {
+     if($(window).scrollTop() + $(window).height() == $(document).height()) {
+         console.log('scrolled to bottom');
+     }
+  });
+
   //  ___   ___  ___
   // | __| /   \/   \  ___ __
   // `__ \|  O    O  || . \\ \/
@@ -155,17 +161,18 @@ $(function(){
     $('#btn-2').addClass('is-loading');
     $.getJSON('/500px', myParams, function(result){
       myParams.page++; // NOTE: updates page count to get new images
-
+      console.log(result);
       var photoArray = result.photos;
       photoArray.forEach(function(photoObj){
         var url = photoObj.images[0].url; // NOTE: Arr[0] is the first image size, [1] is the second image size
         var attributes = {
           class: 'column',
           'data-id': '500px-' + photoObj.id,
-          'data-large-url': photoObj.images[1].url
+          'data-large-url': photoObj.images[1].url,
+          'data-username': photoObj.user.username
         };
-        var div = $('<div>').attr(attributes).addClass('is-3-desktop').addClass('is-6-mobile');
-        var img = $('<img>').attr('src', url);
+        var div = $('<div>').addClass('is-3-desktop').addClass('is-6-mobile');
+        var img = $('<img>').attr('src', url).attr(attributes);
         div.append(img);
         $('#result-col').prepend(div);
 
@@ -177,7 +184,7 @@ $(function(){
 
   // modal
   $("#result-col").on('click', 'img', function(){
-    var url = $(this).closest('div').data('large-url');
+    var url = $(this).data('large-url');
     var modal = $('.modal').find('p');
     modal.children('img').remove();
     var img = $('<img>').attr('src', url);
@@ -217,7 +224,7 @@ $(function(){
       features: []
     };
     // feature constructor
-    function feature(id, name, description, lng, lat, sm_url, lg_url){
+    function feature(id, name, description, lng, lat, sm_url, lg_url, username){
       this.type = 'Feature';
       this.properties = {
         id: id,
@@ -227,7 +234,8 @@ $(function(){
         'marker-symbol': 'camera',
         'marker-color': '#1fc8db',
         small_url: sm_url,
-        large_url: lg_url
+        large_url: lg_url,
+        username: username
       };
       this.geometry = {
         type: 'Point',
@@ -243,7 +251,8 @@ $(function(){
         photo.longitude,
         photo.latitude,
         photo.images[0].url,
-        photo.images[1].url
+        photo.images[1].url,
+        photo.user.username
       ));
     });
     return result;
