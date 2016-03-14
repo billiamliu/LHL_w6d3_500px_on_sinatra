@@ -33,14 +33,18 @@ $(function(){
     rpp: 100 //NOTE: 20-100 pictures per request
   };
 
+
+  // NOTE: ------- HELPERS -------
+
   $('#set_button').on('click', function(){
     $(this).addClass('is-loading');
     myParams.feature = geoParams.feature = $('#set_feature').val();
     myParams.image_size = geoParams.image_size = '3,' + $('#set_size').val();
     myParams.only = geoParams.only = $('#set_category').val();
+    myParams.page = geoParams.page = 1;
     setTimeout(function(){
       $('#set_button').removeClass('is-loading');
-    }, 600);
+    }, 800);
   });
 
   // custom coordinates currently disabled
@@ -48,8 +52,6 @@ $(function(){
   $('#input_lng').attr('placeholder', 'Longitude: ' + myLocation.lng);
   $('#input_lat').attr('placeholder', 'Latitude: ' + myLocation.lat);
   $('#input_range').attr('placeholder', 'Search Range: ' + myLocation.range);
-
-  // NOTE: ------- NAVIGATION -------
 
   var hideSections = function(){
     $('body').children('section').hide();
@@ -65,17 +67,30 @@ $(function(){
   $('#_hello').show();
   // end initial state
 
+  // - HELPER FOR PLACEHOLD.IT IMAGES -
+  var rand = function(){
+    return Math.floor(Math.random() * (1440 - 400 + 1)) + 400;
+  };
+
+  // - NUKE RESULTS for 500px page -
+  function nuke (){
+    $('#result-col').children().remove();
+    $('.modal').removeClass('is-active').find('img').remove();
+    $('.modal').append('<img>').attr('src', 'http://placehold.it/800x600');
+    myParams.page = 0;
+  }
+
+  // close modal for both 500px and 500maps
+  $('.modal-background, .image-custom').on('click', function(){
+    $('.modal').removeClass('is-active');
+  });
+
+  // NOTE: ------- NAVIGATION -------
+
   $('#tab_500px').on('click', function(){
     hideSections();
     $('#_500px').show();
     updateNavTabs($(this));
-  });
-
-  $('#tab_mapbox').on('click', function(){
-    hideSections();
-    $('#_mapbox').show();
-    updateNavTabs($(this));
-    // map.invalidateSize();
   });
 
   $('#tab_500maps').on('click', function(){
@@ -91,34 +106,13 @@ $(function(){
     updateNavTabs($(this));
   });
 
-  //   ___   ___  ___
+  //  ___   ___  ___
   // | __| /   \/   \  ___ __
   // `__ \|  O    O  || . \\ \/
   // |___/ \___/\___/ |  _//\_\
   //                  |_|
 
-  // NOTE: ------- LOGISTICS -------
-
-  // - HELPER FOR PLACEHOLD.IT IMAGES -
-  var rand = function(){
-    return Math.floor(Math.random() * (1440 - 400 + 1)) + 400;
-  };
-
-  // - NUKE RESULTS -
-  function nuke (){
-    $('#result-col').children().remove();
-    $('.modal').removeClass('is-active').find('img').remove();
-    $('.modal').append('<img>').attr('src', 'http://placehold.it/800x600');
-    myParams.page = 0;
-  }
-
-  // NOTE: ------- BUTTONS -------
-
   $('#nuke').on('click', nuke);
-
-  var col2Text = 'Use local server to inject API key and fetch images';
-  $('#col-2').find('p').first().remove();
-  $('#col-2').prepend($('<p>').text(col2Text));
 
   $('#btn-2').addClass('is-primary').on('click', function(){
     var thisButton = $(this);
@@ -144,8 +138,7 @@ $(function(){
     });
   });
 
-  // NOTE: ------- MODAL --------
-
+  // modal
   $("#result-col").on('click', 'img', function(){
     var url = $(this).closest('div').data('large-url');
     var modal = $('.modal').find('p');
@@ -155,35 +148,6 @@ $(function(){
     $('.modal').addClass('is-active');
   });
 
-  $('.modal-background, .image-custom').on('click', function(){
-    $('.modal').removeClass('is-active');
-  });
-
-  //                        _
-  //  _ __ ___   __ _ _ __ | |__   _____  __
-  // |  _   _ \ / _  |  _ \|  _ \ / _ \ \/ /
-  // | | | | | | (_| | |_) | |_) | (_) >  <
-  // |_| |_| |_|\__,_| .__/|_.__/ \___/_/\_\
-  //                 |_|
-
-
-  // var map = L.mapbox.map('map', 'mapbox.light').setView([59.325, 18.071], 13);
-
-  // L.mapbox.featureLayer({ //NOTE: geojson
-  //   type: 'Feature',
-  //   geometry: {
-  //       type: 'Point',
-  //       coordinates: [ 18.071, 59.325 ] // NOTE: long, lat as per geojson spec
-  //   },
-  //   properties: {
-  //       title: 'Dummy Title',
-  //       description: 'Dummy description 123 hello hello',
-  //       'marker-size': 'small',
-  //       'marker-color': '#1fc8db',
-  //       'marker-symbol': 'camera'
-  //   }
-  // }).addTo(map);
-
 
   //  ____   ___   ___
   // | ___| / _ \ / _ \ _ __ ___   __ _ _ __  ___
@@ -192,7 +156,7 @@ $(function(){
   // |____/ \___/ \___/|_| |_| |_|\__,_| .__/|___/
   //                                   |_|
 
-  $('#btn-1').text('find some pictures').on('click', function(){
+  $('#btn-1').on('click', function(){
     var thisButton = $(this);
     thisButton.addClass('is-loading');
 
