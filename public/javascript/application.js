@@ -153,7 +153,7 @@ $(function(){
           'data-id': '500px-' + photoObj.id,
           'data-large-url': photoObj.images[1].url
         };
-        var div = $('<div>').attr(attributes).addClass('is-3');
+        var div = $('<div>').attr(attributes).addClass('is-quarter');
         var img = $('<img>').attr('src', url);
         div.append(img);
         $('#result-col').prepend(div);
