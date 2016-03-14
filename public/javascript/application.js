@@ -40,6 +40,7 @@ $(function(){
   // NOTE: ------- HELPERS -------
 
   $('#set_button').on('click', function(){
+    nuke();
     $(this).addClass('is-loading');
     $('#set_notification').slideUp();
     myParams.feature = geoParams.feature = $('#set_feature').val();
@@ -97,6 +98,7 @@ $(function(){
     hideSections();
     $('#_500px').show();
     updateNavTabs($(this));
+    if ($('#result-col').children().length < 1){query500px();}
   });
 
   $('#tab_500maps').on('click', function(){
@@ -104,6 +106,7 @@ $(function(){
     $('#_500maps').show();
     updateNavTabs($(this));
     pic_map.invalidateSize();
+    if (!myLayer._geojson){query500maps();}
   });
 
   $('#tab_settings').on('click', function(){
@@ -124,9 +127,12 @@ $(function(){
   $('#btn-2').addClass('is-primary').on('click', function(){
     var thisButton = $(this);
     thisButton.addClass('is-loading');
+    query500px(thisButton);
+  });
 
+  function query500px(loadButton){
+    $('#btn-2').addClass('is-loading');
     $.getJSON('/500px', myParams, function(result){
-      thisButton.removeClass('is-loading');
       myParams.page++; // NOTE: updates page count to get new images
 
       var photoArray = result.photos;
@@ -141,9 +147,12 @@ $(function(){
         var img = $('<img>').attr('src', url);
         div.append(img);
         $('#result-col').prepend(div);
+
+        if(loadButton){loadButton.removeClass('is-loading');}
+        $('#btn-2').removeClass('is-loading');
       });
     });
-  });
+  }
 
   // modal
   $("#result-col").on('click', 'img', function(){
@@ -166,15 +175,19 @@ $(function(){
   $('#btn-1').on('click', function(){
     var thisButton = $(this);
     thisButton.addClass('is-loading');
+    query500maps(thisButton);
+  });
 
-  $.getJSON('/500px', geoParams, function(result){
-      thisButton.removeClass('is-loading');
+  function query500maps (loadButton){
+    $('#btn-1').addClass('is-loading');
+    $.getJSON('/500px', geoParams, function(result){
       geoParams.page++; // NOTE: updates page count to get new images
-
       var geojson = convertToGeoJSON(result);
       myLayer.setGeoJSON(geojson);
+      if (loadButton){loadButton.removeClass('is-loading');}
+      $('#btn-1').removeClass('is-loading');
     });
-  });
+  }
 
   function convertToGeoJSON(json){
     var arrWithGeo = json.photos.filter(function(photo){return photo.longitude;});
