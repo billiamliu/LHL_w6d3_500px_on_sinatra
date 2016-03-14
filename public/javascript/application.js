@@ -8,7 +8,9 @@ $(function(){
 
   // NOTE: ------- SETTINGS -------
 
-  L.mapbox.accessToken = 'pk.eyJ1IjoiZnJlY2hkYWNoc3RlciIsImEiOiJjaWxwenoxYXkwOG1kdjZseWY2ZjdmeHhvIn0.vW1oq4fVhJwS-l4OFDtTQw';
+  // NOTE: needs to be truthy for other mapbox functions
+  // but the real key is injected by the server and JSON relayed
+  L.mapbox.accessToken = 'abc';
 
   var myLocation = {
     city: 'Stockholm',
@@ -30,7 +32,8 @@ $(function(){
     image_size: '3,1080',
     geo: myLocation.lng + ',' + myLocation.lat + ',' + myLocation.range,
     page: 1,
-    rpp: 100 //NOTE: 20-100 pictures per request
+    rpp: 100, //NOTE: 20-100 pictures per request
+    zoom: 2
   };
 
 
@@ -209,7 +212,7 @@ $(function(){
   }
 
   // mapbox interaction
-  var pic_map = L.mapbox.map('pic_map', 'mapbox.light').setView([myLocation.lng, myLocation.lat], 3);
+  var pic_map = L.mapbox.map('pic_map', 'mapbox.light').setView([myLocation.lng, myLocation.lat], geoParams.zoom);
   var myLayer = L.mapbox.featureLayer().on('layeradd', function(e) {
       var prop = e.layer.feature.properties;
       e.layer.bindPopup(

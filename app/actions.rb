@@ -2,13 +2,6 @@ get '/' do
   erb :index
 end
 
-# get '/500px' do #NOTE: has access to params from the request URL
-#   key = Key.where(site: '500px').first.key
-#   # key = ENV['500px']
-#   uri = URI("https://api.500px.com/v1/photos?consumer_key=#{key}&feature=highest_rated&image_size=3")
-#   Net::HTTP.get(uri)
-# end
-
 get '/500px' do #NOTE: has access to params from the request URL
   key = Key.where(site: '500px').first.key
   params[:consumer_key] = key
@@ -17,11 +10,14 @@ get '/500px' do #NOTE: has access to params from the request URL
   Net::HTTP.get(uri)
 end
 
-# get '/gmaps' do
-#   key = Key.where(site: 'gmaps').first.key
-#   # NOTE: incomplete
-# end
+get '/mapbox/v4/marker/:file' do
+  key = Key.where(site: 'mapbox').first.key
+  uri = URI("http://a.tiles.mapbox.com/v4/marker/#{params[:captures][0]}?access_token=#{key}")
+  Net::HTTP.get(uri)
+end
 
-# get '/test' do
-#   ENV['500px']
-# end
+get '/mapbox/v4/:resource' do
+  key = Key.where(site: 'mapbox').first.key
+  uri = URI("http://a.tiles.mapbox.com/v4/#{params[:captures][0]}?access_token=#{key}")
+  Net::HTTP.get(uri)
+end
