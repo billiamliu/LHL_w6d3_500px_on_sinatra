@@ -18,6 +18,15 @@ module.exports={"author":"Mapbox","name":"mapbox.js","description":"mapbox javas
 },{}],8:[function(require,module,exports){
 "use strict";
 
+
+//                      _ _  __ _           _   _
+//  _ __ ___   ___   __| (_)/ _(_) ___ __ _| |_(_) ___  _ __
+// | '_ ` _ \ / _ \ / _` | | |_| |/ __/ _` | __| |/ _ \| '_ \
+// | | | | | | (_) | (_| | |  _| | (_| (_| | |_| | (_) | | | |
+// |_| |_| |_|\___/ \__,_|_|_| |_|\___\__,_|\__|_|\___/|_| |_|
+//
+
+
 // NOTE: uber 1337 hax0rs, the URL was http://a.tiles.mapbox.com/v4, now rerouted
 // through my own server, so the API keys are not exposed
 module.exports={HTTP_URL:"/mapbox",HTTPS_URL:"/mapbox",FORCE_HTTPS:!1,REQUIRE_ACCESS_TOKEN:!0};
