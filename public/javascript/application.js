@@ -41,12 +41,14 @@ $(function(){
 
   $('#set_button').on('click', function(){
     $(this).addClass('is-loading');
+    $('#set_notification').slideUp();
     myParams.feature = geoParams.feature = $('#set_feature').val();
     myParams.image_size = geoParams.image_size = '3,' + $('#set_size').val();
     myParams.only = geoParams.only = $('#set_category').val();
     myParams.page = geoParams.page = 1;
     setTimeout(function(){
       $('#set_button').removeClass('is-loading');
+      $('#set_notification').slideDown();
     }, 800);
   });
 
@@ -68,6 +70,7 @@ $(function(){
   // NOTE: initial state
   hideSections();
   $('#_hello').show();
+  $('#set_notification').hide();
   // end initial state
 
   // - HELPER FOR PLACEHOLD.IT IMAGES -
@@ -105,6 +108,7 @@ $(function(){
 
   $('#tab_settings').on('click', function(){
     hideSections();
+    $('#set_notification').hide();
     $('#_settings').show();
     updateNavTabs($(this));
   });
