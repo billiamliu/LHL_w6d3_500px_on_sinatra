@@ -32,3 +32,12 @@
 .button {
   cursor: pointer;
 }
+
+a.back-to-top {
+	display: none;
+	position: fixed;
+	z-index: 999;
+	right: 20px;
+	bottom: 20px;
+  transition: all 1s ease;
+}

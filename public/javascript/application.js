@@ -30,6 +30,7 @@ $(function(){
   var geoParams = { //500maps
     feature: 'fresh_today',
     image_size: '3,1080',
+    sort: 'rating',
     geo: myLocation.lng + ',' + myLocation.lat + ',' + myLocation.range,
     page: 1,
     rpp: 100, //NOTE: 20-100 pictures per request
@@ -124,6 +125,16 @@ $(function(){
     hideSections();
     $('#_hello').show();
     updateNavTabs();
+  });
+
+  var amountScrolled = 300;
+
+  $(window).scroll(function() {
+  	if ( $(window).scrollTop() > amountScrolled ) {
+  		$('a.back-to-top').fadeIn('slow');
+  	} else {
+  		$('a.back-to-top').fadeOut('slow');
+  	}
   });
 
   //  ___   ___  ___
