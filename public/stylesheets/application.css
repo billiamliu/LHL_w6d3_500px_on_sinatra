@@ -17,10 +17,6 @@
   max-height: 40px;
 }
 
-.hero {
-  cursor: default;
-}
-
 .map-container {
   display: flex;
   justify-content: center;
