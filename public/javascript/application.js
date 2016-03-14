@@ -142,7 +142,9 @@ $(function(){
   $(window).on('scroll', function() {
      if(
        $(window).scrollTop() + $(window).height() == $(document).height() &&
-       ($('#tab_500px').hasClass('is-active') || $('#mobi_500px').hasClass('is-active'))
+       ($('#tab_500px').hasClass('is-active') || $('#mobi_500px').hasClass('is-active')) &&
+       !$('#btn-2').hasClass('is-loading') &&
+       $('#scroll-loading').is(':hidden')
      ) {
          $('#scroll-loading').show();
          autoQuery500px();
@@ -169,6 +171,7 @@ $(function(){
     $('#btn-2').addClass('is-loading');
     $.getJSON('/500px', myParams, function(result){
       myParams.page++; // NOTE: updates page count to get new images
+      console.log(myParams.page);
       var photoArray = result.photos;
       addArrayToResultCol(photoArray, 'prepend');
       if(loadButton){loadButton.removeClass('is-loading');}
@@ -179,6 +182,7 @@ $(function(){
   function autoQuery500px (){
     $.getJSON('/500px', myParams, function(result){
       myParams.page++; // NOTE: updates page count to get new images
+      console.log(myParams.page);
       var photoArray = result.photos;
       addArrayToResultCol(photoArray, 'append');
       $('#scroll-loading').hide();
