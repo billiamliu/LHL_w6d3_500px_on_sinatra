@@ -171,7 +171,6 @@ $(function(){
     $('#btn-2').addClass('is-loading');
     $.getJSON('/500px', myParams, function(result){
       myParams.page++; // NOTE: updates page count to get new images
-      console.log(myParams.page);
       var photoArray = result.photos;
       addArrayToResultCol(photoArray, 'prepend');
       if(loadButton){loadButton.removeClass('is-loading');}
@@ -182,7 +181,6 @@ $(function(){
   function autoQuery500px (){
     $.getJSON('/500px', myParams, function(result){
       myParams.page++; // NOTE: updates page count to get new images
-      console.log(myParams.page);
       var photoArray = result.photos;
       addArrayToResultCol(photoArray, 'append');
       $('#scroll-loading').hide();

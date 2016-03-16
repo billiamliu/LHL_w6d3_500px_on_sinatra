@@ -21,3 +21,8 @@ get '/mapbox/v4/:resource' do
   uri = URI("http://a.tiles.mapbox.com/v4/#{params[:captures][0]}?access_token=#{key}")
   Net::HTTP.get(uri)
 end
+
+get '/test' do
+  headers 'Access-Control-Allow-Origin' => ['http://500maps.billiam.io/','http://stormy-beach-93992.herokuapp.com/']
+  'access granted'
+end
