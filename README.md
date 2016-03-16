@@ -5,7 +5,7 @@ Welcome to this lightweight **Single Page Application**. Most of the work is han
 ### Notable Quirks... *ahem* Features
 
   - Uses a modified mapbox SDK that reroutes all API calls via local server (mapbox.2.3.0.js:32)
-  - The server is purely for hiding API keys... ok, and rendering partials
+  - The server is purely an API key injection proxy with basic CORS security
   - Almost all data is rendered client-side
   - The entire app is <1MB
   - My first JS project, woohoo!!
