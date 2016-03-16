@@ -1,3 +1,8 @@
+before do
+  headers 'Access-Control-Allow-Origin' => 'http://500maps.billiam.io'
+  headers 'Access-Control-Allow-Origin' => 'http://stormy-beach-93992.herokuapp.com'
+end
+
 get '/' do
   erb :index
 end
@@ -23,7 +28,7 @@ get '/mapbox/v4/:resource' do
 end
 
 get '/test' do
-  headers 'Access-Control-Allow-Origin' => 'http://500maps.billiam.io'
-  headers 'Access-Control-Allow-Origin' => 'http://stormy-beach-93992.herokuapp.com'
+  # headers 'Access-Control-Allow-Origin' => 'http://500maps.billiam.io'
+  # headers 'Access-Control-Allow-Origin' => 'http://stormy-beach-93992.herokuapp.com'
   'access granted'
 end
